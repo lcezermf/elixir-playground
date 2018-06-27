@@ -15,7 +15,8 @@ defmodule Plugexample.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Plugexample, []}
+      mod: {Plugexample, []},
+      env: [cowboy_port: 8080]
     ]
   end
 
