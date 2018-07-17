@@ -7,13 +7,14 @@ defmodule BlogerWeb.CategoriesControllerTest do
 
   describe "GET index action" do
     test "must return a json with data", %{conn: conn} do
-      Bloger.Repo.insert!(%Category{title: "My title"})
+      category = Bloger.Repo.insert!(%Category{title: "My title"})
 
       req = get conn, categories_path(conn, :index)
 
       expected_json_response = %{
         "categories" => [%{
-          "title" => "Xunda"
+          "id" => category.id,
+          "title" => category.title
         }]
       }
 
