@@ -9,7 +9,7 @@ defmodule BlogerWeb.CategoriesControllerTest do
     test "must return a json with data", %{conn: conn} do
       category = Bloger.Repo.insert!(%Category{title: "My title"})
 
-      req = get conn, categories_path(conn, :index)
+      response = get conn, categories_path(conn, :index)
 
       expected_json_response = %{
         "categories" => [%{
@@ -18,7 +18,19 @@ defmodule BlogerWeb.CategoriesControllerTest do
         }]
       }
 
-      assert json_response(req, 200) == expected_json_response
+      assert json_response(response, 200) == expected_json_response
     end
   end
+
+  # describe "POST create action" do
+  #   data = %{
+  #     title: "title me"
+  #   }
+  #   # response = post conn, categories_path(conn, :create, data)
+  #   response =
+  #     post(conn, categories_path(conn, :create))
+  #     |> json_response(201)
+  #
+  #   assert response["title"] == "title me"
+  # end
 end

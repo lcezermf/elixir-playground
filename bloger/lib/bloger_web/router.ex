@@ -8,6 +8,6 @@ defmodule BlogerWeb.Router do
   scope "/api", BlogerWeb do
     pipe_through :api
 
-    resources "/categories", CategoriesController, only: [:index]
+    resources "/categories", CategoriesController, only: [:index, :create]
   end
 end
