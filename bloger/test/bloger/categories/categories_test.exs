@@ -6,7 +6,6 @@ defmodule Bloger.CategoriesTest do
   describe "create_category/1" do
     test "with valid data must craete a new category" do
       params = %{title: "My title"}
-      category = %Category{title: "My title"}
 
       assert {:ok, category} = Categories.create_category(params)
 

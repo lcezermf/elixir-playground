@@ -10,5 +10,5 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-Bloger.Repo.insert!(%Bloger.Category{name: "First category"})
-Bloger.Repo.insert!(%Bloger.Category{name: "Second category"})
+Bloger.Repo.insert!(%Bloger.Categories.Category{title: "First category"})
+Bloger.Repo.insert!(%Bloger.Categories.Category{title: "Second category"})

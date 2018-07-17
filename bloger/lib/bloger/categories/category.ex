@@ -2,7 +2,6 @@ defmodule Bloger.Categories.Category do
   @moduledoc """
   Category schema.
   """
-
   use Ecto.Schema
   import Ecto.Changeset
 
