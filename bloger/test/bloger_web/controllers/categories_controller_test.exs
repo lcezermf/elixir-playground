@@ -21,16 +21,4 @@ defmodule BlogerWeb.CategoriesControllerTest do
       assert json_response(response, 200) == expected_json_response
     end
   end
-
-  # describe "POST create action" do
-  #   data = %{
-  #     title: "title me"
-  #   }
-  #   # response = post conn, categories_path(conn, :create, data)
-  #   response =
-  #     post(conn, categories_path(conn, :create))
-  #     |> json_response(201)
-  #
-  #   assert response["title"] == "title me"
-  # end
 end
