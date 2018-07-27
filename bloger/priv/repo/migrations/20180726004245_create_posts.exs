@@ -7,6 +7,8 @@ defmodule Bloger.Repo.Migrations.CreatePosts do
       add :content, :text
 
       add :category_id, references(:categories)
+
+      timestamps()
     end
 
     create index(:posts, [:category_id])
