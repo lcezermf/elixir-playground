@@ -40,13 +40,21 @@ defmodule Bloger.PostsTest do
     end
   end
 
-  # describe "list_posts_by_category" do
-  #   test "return a list of categories" do
-  #     category = Bloger.Repo.insert!(%Post{title: "My title"})
-  #     categories = Posts.list_categories()
-  #
-  #     ids = Enum.map(categories, fn(c) -> c.id end)
-  #     assert category.id in ids
-  #   end
-  # end
+  describe "list_posts_by_category" do
+    test "return posts inside given category" do
+      {:ok, c1} = Bloger.Repo.insert(%Category{title: "Category #1"})
+      {:ok, c2} = Bloger.Repo.insert(%Category{title: "Category #2"})
+
+      post2 = Bloger.Repo.insert!(%Post{title: "Xunda Title", content: "Post Content", category_id: c1.id})
+      post1 = Bloger.Repo.insert!(%Post{title: "Post Title", content: "Post Content", category_id: c1.id})
+      post3 = Bloger.Repo.insert!(%Post{title: "Another Title", content: "Post Content", category_id: c2.id})
+
+      posts = Posts.list_posts_by_category(c1.id)
+      ids = Enum.map(posts, fn(p) -> p.id end)
+
+      assert post2.id in ids
+      assert post1.id in ids
+      refute post3.id in ids
+    end
+  end
 end

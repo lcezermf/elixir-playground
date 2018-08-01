@@ -18,4 +18,11 @@ defmodule Bloger.Posts do
     |> order_by(asc: :title)
     |> Repo.all()
   end
+
+  def list_posts_by_category(category_id) do
+    Post
+    |> where(category_id: ^category_id)
+    |> order_by(asc: :title)
+    |> Repo.all()
+  end
 end
