@@ -15,6 +15,7 @@ defmodule Bloger.Posts do
 
   def list_posts() do
     Post
+    |> order_by(asc: :title)
     |> Repo.all()
   end
 end

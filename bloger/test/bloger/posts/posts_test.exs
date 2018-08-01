@@ -27,28 +27,18 @@ defmodule Bloger.PostsTest do
   describe "list_posts" do
     test "return a list of all posts sorted by title" do
       {:ok, c} = Bloger.Repo.insert(%Category{title: "Category"})
-      postone = Bloger.Repo.insert!(%Post{title: "Post Title", content: "Post Content", category_id: c.id})
       posttwo = Bloger.Repo.insert!(%Post{title: "Xunda Title", content: "Post Content", category_id: c.id})
+      postone = Bloger.Repo.insert!(%Post{title: "Post Title", content: "Post Content", category_id: c.id})
       postthree = Bloger.Repo.insert!(%Post{title: "Another Title", content: "Post Content", category_id: c.id})
 
       posts = Posts.list_posts()
       ids = Enum.map(posts, fn(p) -> p.id end)
 
-      assert postone.id in ids
-      assert posttwo.id in ids
-      assert postthree.id in ids
+      assert Enum.at(ids, 0) == postthree.id
+      assert Enum.at(ids, 1) == postone.id
+      assert Enum.at(ids, 2) == posttwo.id
     end
   end
-
-  # describe "list_posts" do
-  #   test "return a list of categories" do
-  #     category = Bloger.Repo.insert!(%Post{title: "My title"})
-  #     categories = Posts.list_categories()
-  #
-  #     ids = Enum.map(categories, fn(c) -> c.id end)
-  #     assert category.id in ids
-  #   end
-  # end
 
   # describe "list_posts_by_category" do
   #   test "return a list of categories" do
