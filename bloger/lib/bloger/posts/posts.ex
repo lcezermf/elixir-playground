@@ -17,6 +17,7 @@ defmodule Bloger.Posts do
     Post
     |> order_by(asc: :title)
     |> Repo.all()
+    |> Repo.preload(:category)
   end
 
   def list_posts_by_category(category_id) do
@@ -24,5 +25,6 @@ defmodule Bloger.Posts do
     |> where(category_id: ^category_id)
     |> order_by(asc: :title)
     |> Repo.all()
+    |> Repo.preload(:category)
   end
 end

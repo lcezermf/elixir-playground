@@ -51,10 +51,12 @@ defmodule Bloger.PostsTest do
 
       posts = Posts.list_posts_by_category(c1.id)
       ids = Enum.map(posts, fn(p) -> p.id end)
+      categories = Enum.map(posts, fn(p) -> p.category.title end)
 
       assert post2.id in ids
       assert post1.id in ids
       refute post3.id in ids
+      assert c1.title in categories
     end
   end
 end

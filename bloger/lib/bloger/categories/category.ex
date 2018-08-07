@@ -4,9 +4,12 @@ defmodule Bloger.Categories.Category do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Bloger.Posts.Post
 
   schema "categories" do
     field :title, :string
+
+    has_many :posts, Post
 
     timestamps()
   end
