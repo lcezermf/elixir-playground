@@ -2,7 +2,11 @@ defmodule IdenticonTest do
   use ExUnit.Case
   doctest Identicon
 
-  test "greets the world" do
-    assert Identicon.hello() == :world
+  test "generates a hash for a given string and return the binary list" do
+    input = "cezer"
+
+    result = Identicon.main(input)
+
+    assert is_list(result)
   end
 end
