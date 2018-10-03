@@ -32,7 +32,7 @@ defmodule Identicon do
   defp build_grid(%Identicon.Image{hex: hex} = _image) do
     hex
     |> Enum.chunk_every(3, 3, :discard)
-    |> mirror_row
+    |> Enum.map(&mirror_row/1)
   end
 
   defp mirror_row([first, second | _tail] = row) do
