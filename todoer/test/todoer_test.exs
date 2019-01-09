@@ -17,4 +17,23 @@ defmodule TodoerTest do
       assert %{{2019, 18, 1} => ["Go to Dentist!"]} == Todoer.add_entry(todo_list, date, title)
     end
   end
+
+  describe ".entries/2" do
+    test "must return entries for a given date" do
+      todo_list = Todoer.new()
+      date = {2019, 18, 1}
+      title = "Go to Dentist!"
+
+      new_todo = Todoer.add_entry(todo_list, date, title)
+
+      assert ["Go to Dentist!"] == Todoer.entries(new_todo, date)
+    end
+
+    test "return empty list for a date with no todo" do
+      todo_list = Todoer.new()
+      date = {2019, 18, 1}
+
+      assert [] == Todoer.entries(todo_list, date)
+    end
+  end
 end

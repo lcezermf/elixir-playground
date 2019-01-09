@@ -30,4 +30,19 @@ defmodule Todoer do
       fn titles -> [title | titles] end
     )
   end
+
+  @doc """
+  Fetch all entries for a given date
+
+  If there aren't no todos for a given date will return an empty list
+
+  ## Examples
+
+    iex> todo_list = Todoer.new() |> Todoer.add_entry({2019, 18, 1}, "Go to Dentist!") |> Todoer.add_entry({2019, 18, 2}, "Go to Work!")
+    iex> Todoer.entries(todo_list, {2019, 18, 1})
+    ["Go to Dentist!"]
+  """
+  def entries(todo_list, date) do
+    Map.get(todo_list, date, [])
+  end
 end
