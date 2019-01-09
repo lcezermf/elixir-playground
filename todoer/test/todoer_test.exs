@@ -11,22 +11,20 @@ defmodule TodoerTest do
   describe ".add_entry/3" do
     test "must add a new entry" do
       todo_list = Todoer.new()
-      date = {2019, 18, 1}
-      title = "Go to Dentist!"
+      details = %{date: {2019, 18, 1}, title: "Go to Dentist!"}
 
-      assert %{{2019, 18, 1} => ["Go to Dentist!"]} == Todoer.add_entry(todo_list, date, title)
+      assert %{{2019, 18, 1} => ["Go to Dentist!"]} == Todoer.add_entry(todo_list, details)
     end
   end
 
   describe ".entries/2" do
     test "must return entries for a given date" do
       todo_list = Todoer.new()
-      date = {2019, 18, 1}
-      title = "Go to Dentist!"
+      details = %{date: {2019, 18, 1}, title: "Go to Dentist!"}
 
-      new_todo = Todoer.add_entry(todo_list, date, title)
+      new_todo = Todoer.add_entry(todo_list, details)
 
-      assert ["Go to Dentist!"] == Todoer.entries(new_todo, date)
+      assert ["Go to Dentist!"] == Todoer.entries(new_todo, details.date)
     end
 
     test "return empty list for a date with no todo" do

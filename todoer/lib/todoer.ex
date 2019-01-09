@@ -19,15 +19,15 @@ defmodule Todoer do
   ## Examples
 
       iex> todo_list = Todoer.new()
-      iex> Todoer.add_entry(todo_list, {2019, 18, 1}, "Go to Dentist!")
+      iex> Todoer.add_entry(todo_list, %{date: {2019, 18, 1}, title: "Go to Dentist!"})
       %{{2019, 18, 1} => ["Go to Dentist!"]}
   """
-  def add_entry(todo_list, date, title) do
+  def add_entry(todo_list, details) do
     Map.update(
       todo_list,
-      date,
-      [title],
-      fn titles -> [title | titles] end
+      details.date,
+      [details.title],
+      fn titles -> [details.title | titles] end
     )
   end
 
@@ -38,7 +38,7 @@ defmodule Todoer do
 
   ## Examples
 
-    iex> todo_list = Todoer.new() |> Todoer.add_entry({2019, 18, 1}, "Go to Dentist!") |> Todoer.add_entry({2019, 18, 2}, "Go to Work!")
+    iex> todo_list = Todoer.new() |> Todoer.add_entry(%{date: {2019, 18, 1}, title: "Go to Dentist!"}) |> Todoer.add_entry(%{date: {2019, 18, 2}, title: "Go to Work!"})
     iex> Todoer.entries(todo_list, {2019, 18, 1})
     ["Go to Dentist!"]
   """
