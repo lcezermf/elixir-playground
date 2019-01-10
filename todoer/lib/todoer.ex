@@ -2,6 +2,7 @@ defmodule Todoer do
   @moduledoc """
   Documentation for Todoer.
   """
+  defstruct auto_id: 1, entries: Map.new()
 
   @doc """
   Returns a Todoer new instance
@@ -9,9 +10,9 @@ defmodule Todoer do
   ## Examples
 
       iex> Todoer.new()
-      %{}
+      %Todoer{auto_id: 1, entries: %{}}
   """
-  def new, do: Map.new()
+  def new, do: %Todoer{}
 
   @doc """
   Add a new todo entry
@@ -20,15 +21,18 @@ defmodule Todoer do
 
       iex> todo_list = Todoer.new()
       iex> Todoer.add_entry(todo_list, %{date: {2019, 18, 1}, title: "Go to Dentist!"})
-      %{{2019, 18, 1} => ["Go to Dentist!"]}
+      %Todoer{
+        auto_id: 2,
+        entries: %{
+          1 => %{date: {2019, 18, 1}, id: 1, title: "Go to Dentist!"}
+        }
+      }
   """
-  def add_entry(todo_list, details) do
-    Map.update(
-      todo_list,
-      details.date,
-      [details.title],
-      fn titles -> [details.title | titles] end
-    )
+  def add_entry(%Todoer{auto_id: auto_id, entries: entries} = todo_list, entry) do
+    entry = Map.put(entry, :id, auto_id)
+    entries = Map.put(entries, auto_id, entry)
+
+    %Todoer{todo_list | auto_id: auto_id + 1, entries: entries}
   end
 
   @doc """
@@ -40,9 +44,11 @@ defmodule Todoer do
 
     iex> todo_list = Todoer.new() |> Todoer.add_entry(%{date: {2019, 18, 1}, title: "Go to Dentist!"}) |> Todoer.add_entry(%{date: {2019, 18, 2}, title: "Go to Work!"})
     iex> Todoer.entries(todo_list, {2019, 18, 1})
-    ["Go to Dentist!"]
+    [%{date: {2019, 18, 1}, id: 1, title: "Go to Dentist!"}]
   """
-  def entries(todo_list, date) do
-    Map.get(todo_list, date, [])
+  def entries(%Todoer{entries: entries}, date) do
+    entries
+    |> Stream.filter(fn {_, entry} -> entry.date == date end)
+    |> Enum.map(fn {_, entry} -> entry end)
   end
 end
