@@ -34,8 +34,8 @@ defmodule TodoerTest do
 
       entries =
         state[:todo_list]
-        |> Todoer.add_entry(entry)
-        |> Todoer.add_entry(entry_two)
+        |> Todoer.add_entry(%{date: {2019, 18, 1}, title: "Go to Dentist!"})
+        |> Todoer.add_entry(%{date: {2019, 18, 2}, title: "Go to Supermarket!"})
 
       assert [%{date: {2019, 18, 1}, id: 1, title: "Go to Dentist!"}] ==
                Todoer.entries(entries, entry.date)
@@ -53,7 +53,6 @@ defmodule TodoerTest do
 
       new_date = {2020, 2, 10}
       updated_entries = Todoer.update_entry(todo_list, 1, &Map.put(&1, :date, new_date))
-      # updated_entries = Todoer.update_entry(todo_list, 1, %{date: new_date})
       {_, updated_entry} = Enum.at(updated_entries.entries, 0)
 
       assert length(Map.keys(todo_list.entries)) == 1
@@ -72,6 +71,31 @@ defmodule TodoerTest do
 
       {_, entry} = Enum.at(todo_list.entries, 0)
       assert entry.title == "Go to Dentist!"
+    end
+  end
+
+  describe ".delete_entry/1" do
+    test "given a valid ID must delete the entry", state do
+      todo_list =
+        state[:todo_list]
+        |> Todoer.add_entry(%{date: {2019, 19, 1}, title: "Go to Dentist!"})
+        |> Todoer.add_entry(%{date: {2019, 22, 1}, title: "Go to Supermarket!"})
+
+      %{entries: remaining_entries} = Todoer.delete_entry(todo_list, 1)
+
+      assert %{2 => %{date: {2019, 22, 1}, id: 2, title: "Go to Supermarket!"}} ==
+               remaining_entries
+    end
+
+    test "given an invalid ID must return default list error", state do
+      todo_list =
+        state[:todo_list]
+        |> Todoer.add_entry(%{date: {2019, 19, 1}, title: "Go to Dentist!"})
+        |> Todoer.add_entry(%{date: {2019, 22, 1}, title: "Go to Supermarket!"})
+
+      entries = Todoer.delete_entry(todo_list, 10)
+
+      assert entries == todo_list
     end
   end
 end

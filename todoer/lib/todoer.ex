@@ -85,4 +85,9 @@ defmodule Todoer do
         %Todoer{todo_list | entries: new_entries}
     end
   end
+
+  def delete_entry(%Todoer{entries: entries} = todo_list, entry_id) do
+    remaining_entries = Map.delete(entries, entry_id)
+    %Todoer{todo_list | entries: remaining_entries}
+  end
 end
