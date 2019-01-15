@@ -12,9 +12,21 @@ defmodule TodoerTest do
     test "must return new Todoer instance", state do
       assert Todoer.new() == state[:todo_list]
     end
+
+    test "enable multiple entries in a single time" do
+      entries = [
+        %{date: {2019, 10, 19}, title: "Go to Supermarket"},
+        %{date: {2019, 06, 01}, title: "My birthday"},
+        %{date: {2019, 07, 10}, title: "Go to dentist"}
+      ]
+
+      %{entries: entries} = Todoer.new(entries)
+
+      assert length(Map.keys(entries)) == 3
+    end
   end
 
-  describe ".add_entry/3" do
+  describe ".add_entry/2" do
     test "must add a new entry", state do
       entry = %{date: {2019, 18, 1}, title: "Go to Dentist!"}
 

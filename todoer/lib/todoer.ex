@@ -7,12 +7,33 @@ defmodule Todoer do
   @doc """
   Returns a Todoer new instance
 
+  You can also starts the new instance with multiple entries
+
   ## Examples
 
       iex> Todoer.new()
       %Todoer{auto_id: 1, entries: %{}}
+
+      iex> entries = [%{date: {2019, 10, 19}, title: "Go to Supermarket"}, %{date: {2019, 06, 01}, title: "My birthday"}, %{date: {2019, 07, 10}, title: "Go to dentist"}]
+      iex> Todoer.new(entries)
+      %Todoer{
+        auto_id: 4,
+        entries: %{
+          1 => %{date: {2019, 10, 19}, id: 1, title: "Go to Supermarket"},
+          2 => %{date: {2019, 6, 1}, id: 2, title: "My birthday"},
+          3 => %{date: {2019, 7, 10}, id: 3, title: "Go to dentist"}
+        }
+      }
   """
-  def new, do: %Todoer{}
+  def new(entries \\ []) do
+    Enum.reduce(
+      entries,
+      %Todoer{},
+      fn entry, todo_list ->
+        add_entry(todo_list, entry)
+      end
+    )
+  end
 
   @doc """
   Add a new todo entry
