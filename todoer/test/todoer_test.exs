@@ -30,12 +30,7 @@ defmodule TodoerTest do
     test "must add a new entry", state do
       entry = %{date: {2019, 18, 1}, title: "Go to Dentist!"}
 
-      assert %Todoer{
-               auto_id: 2,
-               entries: %{
-                 1 => %{date: {2019, 18, 1}, id: 1, title: "Go to Dentist!"}
-               }
-             } == Todoer.add_entry(state[:todo_list], entry)
+      assert %{entries: entries} = Todoer.add_entry(state[:todo_list], entry)
     end
   end
 

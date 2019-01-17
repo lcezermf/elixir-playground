@@ -111,32 +111,43 @@ end
 
 defmodule Todoer.CSVImporter do
   def import(file_path) do
+    file_path
+    |> read_lines()
+    |> create_entries()
+    |> Todoer.new()
+  end
+
+  defp read_lines(file_path) do
     File.stream!(file_path)
-    |> replace_new_line_char()
-    |> split_rows()
-    |> convert_row_to_tuple()
+    |> Stream.map(&String.replace(&1, "\n", ""))
   end
 
-  defp replace_new_line_char(file_stream) do
-    Stream.map(file_stream, &String.replace(&1, "\n", ""))
+  defp create_entries(lines) do
+    lines
+    |> Stream.map(&extract_data/1)
+    |> Enum.map(&create_entry/1)
   end
 
-  defp split_rows(rows) do
-    Enum.map(rows, &String.split(&1, ","))
+  defp extract_data(line) do
+    line
+    |> String.split(",")
+    |> manipulate_data()
   end
 
-  defp convert_row_to_tuple(rows) do
-    Enum.map(rows, fn [head | tail] ->
-      {
-        convert_date_to_tuple(head),
-        Enum.at(tail, 0)
-      }
-    end)
+  defp manipulate_data([date_string, title]) do
+    {convert_do_date(date_string), title}
   end
 
-  defp convert_date_to_tuple(date) do
-    String.split(date, "/")
-    |> Enum.map(&String.to_integer/1)
-    |> List.to_tuple()
+  defp convert_do_date(date_string) do
+    [year, month, day] =
+      date_string
+      |> String.split("/")
+      |> Enum.map(&String.to_integer/1)
+
+    {year, month, day}
+  end
+
+  defp create_entry({date, title}) do
+    %{date: date, title: title}
   end
 end
