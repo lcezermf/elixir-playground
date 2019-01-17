@@ -91,10 +91,6 @@ defmodule Todoer do
             }
 
   """
-  # def update_entry(todo_list, entry_id, %{} = entry_new_data) do
-  #   update_entry(todo_list, entry_id, fn _ -> entry_new_data end)
-  # end
-
   def update_entry(%Todoer{entries: entries} = todo_list, entry_id, updater_fun) do
     case entries[entry_id] do
       nil ->
@@ -110,5 +106,37 @@ defmodule Todoer do
   def delete_entry(%Todoer{entries: entries} = todo_list, entry_id) do
     remaining_entries = Map.delete(entries, entry_id)
     %Todoer{todo_list | entries: remaining_entries}
+  end
+end
+
+defmodule Todoer.CSVImporter do
+  def import(file_path) do
+    File.stream!(file_path)
+    |> replace_new_line_char()
+    |> split_rows()
+    |> convert_row_to_tuple()
+  end
+
+  defp replace_new_line_char(file_stream) do
+    Stream.map(file_stream, &String.replace(&1, "\n", ""))
+  end
+
+  defp split_rows(rows) do
+    Enum.map(rows, &String.split(&1, ","))
+  end
+
+  defp convert_row_to_tuple(rows) do
+    Enum.map(rows, fn [head | tail] ->
+      {
+        convert_date_to_tuple(head),
+        Enum.at(tail, 0)
+      }
+    end)
+  end
+
+  defp convert_date_to_tuple(date) do
+    String.split(date, "/")
+    |> Enum.map(&String.to_integer/1)
+    |> List.to_tuple()
   end
 end
