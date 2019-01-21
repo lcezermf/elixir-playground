@@ -103,6 +103,23 @@ defmodule Todoer do
     end
   end
 
+  @doc """
+  Remove an entry information based on the ID and return the remaing list
+
+  When given ID is invalid, must return the current list without any change.
+
+  ## Examples
+
+    iex> todo_list = Todoer.new() |> Todoer.add_entry(%{date: {2019, 18, 1}, title: "Go to Dentist!"}) |> Todoer.add_entry(%{date: {2019, 18, 2}, title: "Go to Work!"})
+    iex> Todoer.delete_entry(todo_list, 1)
+    %Todoer{
+              auto_id: 3,
+              entries: %{
+                2 => %{date: {2019, 18, 2}, id: 2, title: "Go to Work!"}
+              }
+            }
+
+  """
   def delete_entry(%Todoer{entries: entries} = todo_list, entry_id) do
     remaining_entries = Map.delete(entries, entry_id)
     %Todoer{todo_list | entries: remaining_entries}

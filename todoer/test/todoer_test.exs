@@ -94,7 +94,7 @@ defmodule TodoerTest do
                remaining_entries
     end
 
-    test "given an invalid ID must return default list error", state do
+    test "given an invalid ID must return default list", state do
       todo_list =
         state[:todo_list]
         |> Todoer.add_entry(%{date: {2019, 19, 1}, title: "Go to Dentist!"})
