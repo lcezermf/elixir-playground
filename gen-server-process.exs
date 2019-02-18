@@ -1,54 +1,56 @@
-defmodule GenericServerProcess do
-  def start(callback_module) do
-    spawn(fn ->
-      initial_state = callback_module.init()
-      loop(callback_module, initial_state)
-    end)
-  end
+# defmodule GenericServerProcess do
+#   def start(callback_module) do
+#     spawn(fn ->
+#       initial_state = callback_module.init()
+#       loop(callback_module, initial_state)
+#     end)
+#   end
 
-  def loop(callback_module, current_state) do
-    receive do
-      {:call, request, caller} ->
-        {response, new_state} = callback_module.handle_call(request, current_state)
-        send(caller, {:response, response})
+#   def loop(callback_module, current_state) do
+#     receive do
+#       {:call, request, caller} ->
+#         {response, new_state} = callback_module.handle_call(request, current_state)
+#         send(caller, {:response, response})
 
-        loop(callback_module, new_state)
+#         loop(callback_module, new_state)
 
-      {:cast, request} ->
-        new_state =
-          callback_module.handle_cast(
-            request,
-            current_state
-          )
+#       {:cast, request} ->
+#         new_state =
+#           callback_module.handle_cast(
+#             request,
+#             current_state
+#           )
 
-        loop(callback_module, new_state)
-    end
-  end
+#         loop(callback_module, new_state)
+#     end
+#   end
 
-  def call(pid, request) do
-    send(pid, {:call, request, self})
+#   def call(pid, request) do
+#     send(pid, {:call, request, self})
 
-    receive do
-      {:response, response} -> response
-    end
-  end
+#     receive do
+#       {:response, response} -> response
+#     end
+#   end
 
-  def cast(pid, request) do
-    send(pid, {:cast, request})
-  end
-end
+#   def cast(pid, request) do
+#     send(pid, {:cast, request})
+#   end
+# end
 
 defmodule KeyValueStore do
+  use GenServer
+
   def start do
-    GenericServerProcess.start(KeyValueStore)
+    GenServer.start(KeyValueStore, nil)
   end
 
   def put(pid, key, value) do
-    GenericServerProcess.cast(pid, {:put, key, value})
+    GenServer.cast(pid, {:put, key, value})
   end
 
   def get(pid, key) do
-    GenericServerProcess.call(pid, {:get, key})
+    GenServer.call(pid, {:get, key})
   end
 
   def init do
