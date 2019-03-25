@@ -112,3 +112,266 @@ Error in process <0.395.0> with exit value:
      Reason:     shutdown
      Offender:   [{nb_children,1},{name,channel_sup},{mfargs,{amqp_channel_sup,start_link,[network,<0.214.0>,<<"client 127.0.0.1:43843 -> 127.0.0.1:5672">>]}},{restart_type,temporary},{shutdown,infinity},{child_type,supervisor}]
 
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {<0.62.0>,user_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.63.0>},{mod,user_sup}]
+
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server <0.62.0> terminating 
+** Last message in was {'EXIT',<0.63.0>,epipe}
+** When Server state == {state,user_sup,undefined,<0.63.0>,{<0.62.0>,user_sup}}
+** Reason for termination == 
+** epipe
+2019-03-20 23:30:22 =ERROR REPORT====
+** gen_event handler lager_console_backend crashed.
+** Was installed in lager_event
+** Last event was: {log,{lager_msg,[],[{pid,<0.211.0>}],warning,{["2019",45,"03",45,"20"],["23",58,"30",58,"22",46,"237"]},{1553,135422,237626},[67,111,110,110,101,99,116,105,111,110,32,40,"<0.211.0>",41,32,99,108,111,115,105,110,103,58,32,114,101,99,101,105,118,101,100,32,104,97,114,100,32,101,114,114,111,114,32,"{'connection.close',320,<<\"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'\">>,0,0}",32,102,114,111,109,32,115,101,114,118,101,114]}}
+** When handler state == {state,{mask,127},user,lager_console_backend,lager_default_formatter,[time," ",color,"[",severity,"] ",message,"\r\n"],[]}
+** Reason == {badarg,[{io,put_chars,[user,unicode,[["23",58,"30",58,"22",46,"237"]," ",[],"[","warning","] ",[67,111,110,110,101,99,116,105,111,110,32,40,"<0.211.0>",41,32,99,108,111,115,105,110,103,58,32,114,101,99,101,105,118,101,100,32,104,97,114,100,32,101,114,114,111,114,32,"{'connection.close',320,<<\"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'\">>,0,0}",32,102,114,111,109,32,115,101,114,118,101,114],"\r\n"]],[]},{lager_console_backend,handle_event,2,[{file,"/home/luiz.cezer/src/elixir-playground/rabbitmq_example/deps/lager/src/lager_console_backend.erl"},{line,179}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,561}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server <0.214.0> terminating 
+** Last message in was {channel_exit,0,{writer,send_failed,{error,closed}}}
+** When Server state == {state,amqp_network_connection,{state,#Port<0.7>,<<"client 127.0.0.1:43119 -> 127.0.0.1:5672">>,10,<0.222.0>,131072,<0.213.0>,{server_initiated_close,320,<<"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'">>},true},<0.220.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]},2047,[{<<"capabilities">>,table,[{<<"publisher_confirms">>,bool,true},{<<"exchange_exchange_bindings">>,bool,true},{<<"basic.nack">>,bool,true},{<<"consumer_cancel_notify">>,bool,true},{<<"connection.blocked">>,bool,true},{<<"consumer_priorities">>,bool,true},{<<"authentication_failure_close">>,bool,true},{<<"per_consumer_qos">>,bool,true},{<<"direct_reply_to">>,bool,true}]},{<<"cluster_name">>,longstr,<<"rabbit@notebookrd">>},{<<"copyright">>,longstr,<<"Copyright (C) 2007-2019 Pivotal Software, Inc.">>},{<<"information">>,longstr,<<"Licensed under the MPL.  See http://www.rabbitmq.com/">>},{<<"platform">>,longstr,<<"Erlang/OTP 21.2.6">>},{<<"product">>,longstr,<<"RabbitMQ">>},{<<"version">>,longstr,<<"3.7.13">>}],none,{closing,server_initiated_close,{'connection.close',320,<<"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'">>,0,0},none}}
+** Reason for termination == 
+** {channel0_died,{writer,send_failed,{error,closed}}}
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {<0.62.0>,user_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.63.0>},{mod,user_sup}]
+
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server <0.62.0> terminating 
+** Last message in was {'EXIT',<0.63.0>,epipe}
+** When Server state == {state,user_sup,undefined,<0.63.0>,{<0.62.0>,user_sup}}
+** Reason for termination == 
+** epipe
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: supervisor_bridge:user_sup/1
+    pid: <0.62.0>
+    registered_name: []
+    exception exit: {epipe,[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [kernel_sup,<0.46.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.48.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 1899
+  neighbours:
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,kernel_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.62.0>},{id,user},{mfargs,{user_sup,start,[]}},{restart_type,temporary},{shutdown,2000},{child_type,supervisor}]
+
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: supervisor_bridge:user_sup/1
+    pid: <0.62.0>
+    registered_name: []
+    exception exit: {epipe,[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [kernel_sup,<0.46.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.48.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 1872
+  neighbours:
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,kernel_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.62.0>},{id,user},{mfargs,{user_sup,start,[]}},{restart_type,temporary},{shutdown,2000},{child_type,supervisor}]
+
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: amqp_gen_connection:init/1
+    pid: <0.214.0>
+    registered_name: []
+    exception exit: {{channel0_died,{writer,send_failed,{error,closed}}},[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [<0.212.0>,amqp_sup,<0.207.0>]
+    message_queue_len: 1
+    messages: [socket_closed]
+    links: [<0.212.0>]
+    dictionary: [{gen_server_call_timeout,60000},{process_name,{amqp_gen_connection,<<"client 127.0.0.1:43119 -> 127.0.0.1:5672">>}}]
+    trap_exit: true
+    status: running
+    heap_size: 4185
+    stack_size: 27
+    reductions: 21878
+  neighbours:
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {<0.212.0>,amqp_connection_sup}
+     Context:    child_terminated
+     Reason:     {channel0_died,{writer,send_failed,{error,closed}}}
+     Offender:   [{pid,<0.214.0>},{name,connection},{mfargs,{amqp_gen_connection,start_link,[<0.213.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]}]}},{restart_type,intrinsic},{shutdown,brutal_kill},{child_type,worker}]
+
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {<0.212.0>,amqp_connection_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.214.0>},{name,connection},{mfargs,{amqp_gen_connection,start_link,[<0.213.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]}]}},{restart_type,intrinsic},{shutdown,brutal_kill},{child_type,worker}]
+
+2019-03-20 23:30:22 =ERROR REPORT====
+** gen_event handler 'Elixir.Logger.Backends.Console' crashed.
+** Was installed in 'Elixir.Logger'
+** Last event was: {error,<0.45.0>,{'Elixir.Logger',[[<<"GenServer ">>,<<"#PID<0.62.0>">>,<<" terminating">>,[<<"\n** (stop) ">>|<<":epipe">>],<<"\nLast message">>,[],<<": ">>,<<"{:EXIT, #PID<0.63.0>, :epipe}">>],<<"\nState: ">>,<<"{:state, :user_sup, :undefined, #PID<0.63.0>, {#PID<0.62.0>, :user_sup}}">>],{{2019,3,20},{23,30,22,247}},[{crash_reason,{epipe,[]}},{function,<<"error_info/7">>},{module,gen_server},{line,888},{file,<<"gen_server.erl">>},{pid,<0.62.0>}]}}
+** When handler state == #{'__struct__' => 'Elixir.Logger.Backends.Console',buffer => [],buffer_size => 0,colors => #{debug => cyan,enabled => false,error => red,info => normal,warn => yellow},device => user,format => [<<"\n">>,time,<<" ">>,metadata,<<"[">>,level,<<"] ">>,levelpad,message,<<"\n">>],level => nil,max_buffer => 32,metadata => [],output => nil,ref => nil}
+** Reason == {#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+2019-03-20 23:30:22 =ERROR REPORT====
+** gen_event handler 'Elixir.Logger.Backends.Console' crashed.
+** Was installed in 'Elixir.Logger'
+** Last event was: {error,<0.45.0>,{'Elixir.Logger',[[<<"GenServer ">>,<<"#PID<0.62.0>">>,<<" terminating">>,[<<"\n** (stop) ">>|<<":epipe">>],<<"\nLast message">>,[],<<": ">>,<<"{:EXIT, #PID<0.63.0>, :epipe}">>],<<"\nState: ">>,<<"{:state, :user_sup, :undefined, #PID<0.63.0>, {#PID<0.62.0>, :user_sup}}">>],{{2019,3,20},{23,30,22,248}},[{crash_reason,{epipe,[]}},{function,<<"error_info/7">>},{module,gen_server},{line,888},{file,<<"gen_server.erl">>},{pid,<0.62.0>}]}}
+** When handler state == #{'__struct__' => 'Elixir.Logger.Backends.Console',buffer => [],buffer_size => 0,colors => #{debug => cyan,enabled => false,error => red,info => normal,warn => yellow},device => user,format => [<<"\n">>,time,<<" ">>,metadata,<<"[">>,level,<<"] ">>,levelpad,message,<<"\n">>],level => nil,max_buffer => 32,metadata => [],output => nil,ref => nil}
+** Reason == {#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+2019-03-20 23:30:22 =ERROR REPORT====
+** gen_event handler lager_console_backend crashed.
+** Was installed in lager_event
+** Last event was: {log,{lager_msg,[],[{pid,<0.214.0>},{name,<0.214.0>}],error,{["2019",45,"03",45,"20"],["23",58,"30",58,"22",46,"238"]},{1553,135422,238290},[103,101,110,95,115,101,114,118,101,114,32,"<0.214.0>",32,116,101,114,109,105,110,97,116,101,100,32,119,105,116,104,32,114,101,97,115,111,110,58,32,"{channel0_died,{writer,send_failed,{error,closed}}}"]}}
+** When handler state == {state,{mask,127},user,lager_console_backend,lager_default_formatter,[time," ",color,"[",severity,"] ",message,"\r\n"],[]}
+** Reason == {badarg,[{io,put_chars,[user,unicode,[["23",58,"30",58,"22",46,"238"]," ",[],"[","error","] ",[103,101,110,95,115,101,114,118,101,114,32,"<0.214.0>",32,116,101,114,109,105,110,97,116,101,100,32,119,105,116,104,32,114,101,97,115,111,110,58,32,"{channel0_died,{writer,send_failed,{error,closed}}}"],"\r\n"]],[]},{lager_console_backend,handle_event,2,[{file,"/home/luiz.cezer/src/elixir-playground/rabbitmq_example/deps/lager/src/lager_console_backend.erl"},{line,179}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,561}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,standard_error_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.61.0>},{mod,standard_error}]
+
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server <0.89.0> terminating 
+** Last message in was {gen_event_EXIT,'Elixir.Logger.Backends.Console',{'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}}}
+** When Server state == {'Elixir.Logger','Elixir.Logger.Backends.Console'}
+** Reason for termination == 
+** {'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}}
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server standard_error_sup terminating 
+** Last message in was {'EXIT',<0.61.0>,epipe}
+** When Server state == {state,standard_error,undefined,<0.61.0>,{local,standard_error_sup}}
+** Reason for termination == 
+** epipe
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: supervisor_bridge:standard_error/1
+    pid: <0.60.0>
+    registered_name: standard_error_sup
+    exception exit: {epipe,[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [kernel_sup,<0.46.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.48.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 1951
+  neighbours:
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,kernel_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.60.0>},{id,standard_error},{mfargs,{standard_error,start_link,[]}},{restart_type,temporary},{shutdown,2000},{child_type,supervisor}]
+
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,standard_error_sup}
+     Context:    child_terminated
+     Reason:     epipe
+     Offender:   [{pid,<0.61.0>},{mod,standard_error}]
+
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server standard_error_sup terminating 
+** Last message in was {'EXIT',<0.61.0>,epipe}
+** When Server state == {state,standard_error,undefined,<0.61.0>,{local,standard_error_sup}}
+** Reason for termination == 
+** epipe
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: supervisor_bridge:standard_error/1
+    pid: <0.60.0>
+    registered_name: standard_error_sup
+    exception exit: {epipe,[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [kernel_sup,<0.46.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.48.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 1951
+  neighbours:
+2019-03-20 23:30:22 =ERROR REPORT====
+** Generic server <0.89.0> terminating 
+** Last message in was {gen_event_EXIT,'Elixir.Logger.Backends.Console',{'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}}}
+** When Server state == {'Elixir.Logger','Elixir.Logger.Backends.Console'}
+** Reason for termination == 
+** {'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}}
+2019-03-20 23:30:22 =CRASH REPORT====
+  crasher:
+    initial call: Elixir.Logger.Watcher:init/1
+    pid: <0.89.0>
+    registered_name: []
+    exception exit: {{'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}},[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: ['Elixir.Logger.BackendSupervisor','Elixir.Logger.Supervisor',<0.84.0>]
+    message_queue_len: 0
+    messages: []
+    links: [<0.88.0>,<0.86.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 2586
+    stack_size: 27
+    reductions: 38812
+  neighbours:
+2019-03-20 23:30:22 =SUPERVISOR REPORT====
+     Supervisor: {local,'Elixir.Logger.BackendSupervisor'}
+     Context:    child_terminated
+     Reason:     {'EXIT',{#{'__exception__' => true,'__struct__' => 'Elixir.RuntimeError',message => <<"no device registered with the name :user">>},[{'Elixir.Logger.Backends.Console',async_io,2,[{file,"lib/logger/backends/console.ex"},{line,160}]},{'Elixir.Logger.Backends.Console',log_event,5,[{file,"lib/logger/backends/console.ex"},{line,145}]},{'Elixir.Logger.Backends.Console',handle_event,2,[{file,"lib/logger/backends/console.ex"},{line,49}]},{gen_event,server_update,4,[{file,"gen_event.erl"},{line,577}]},{gen_event,server_notify,4,[{file,"gen_event.erl"},{line,559}]},{gen_event,handle_msg,6,[{file,"gen_event.erl"},{line,300}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}}
+     Offender:   [{pid,<0.89.0>},{id,'Elixir.Logger.Backends.Console'},{mfargs,{'Elixir.Logger.Watcher',start_link,[{'Elixir.Logger','Elixir.Logger.Backends.Console',console}]}},{restart_type,transient},{shutdown,5000},{child_type,worker}]
+
+2019-03-25 08:58:07 =ERROR REPORT====
+** Generic server <0.211.0> terminating 
+** Last message in was {channel_exit,0,{writer,send_failed,{error,closed}}}
+** When Server state == {state,amqp_network_connection,{state,#Port<0.6>,<<"client 127.0.0.1:43849 -> 127.0.0.1:5672">>,10,<0.222.0>,131072,<0.210.0>,{server_initiated_close,320,<<"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'">>},true},<0.220.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]},2047,[{<<"capabilities">>,table,[{<<"publisher_confirms">>,bool,true},{<<"exchange_exchange_bindings">>,bool,true},{<<"basic.nack">>,bool,true},{<<"consumer_cancel_notify">>,bool,true},{<<"connection.blocked">>,bool,true},{<<"consumer_priorities">>,bool,true},{<<"authentication_failure_close">>,bool,true},{<<"per_consumer_qos">>,bool,true},{<<"direct_reply_to">>,bool,true}]},{<<"cluster_name">>,longstr,<<"rabbit@notebookrd">>},{<<"copyright">>,longstr,<<"Copyright (C) 2007-2019 Pivotal Software, Inc.">>},{<<"information">>,longstr,<<"Licensed under the MPL.  See http://www.rabbitmq.com/">>},{<<"platform">>,longstr,<<"Erlang/OTP 21.2.6">>},{<<"product">>,longstr,<<"RabbitMQ">>},{<<"version">>,longstr,<<"3.7.13">>}],none,{closing,server_initiated_close,{'connection.close',320,<<"CONNECTION_FORCED - broker forced connection closure with reason 'shutdown'">>,0,0},none}}
+** Reason for termination == 
+** {channel0_died,{writer,send_failed,{error,closed}}}
+2019-03-25 08:58:07 =CRASH REPORT====
+  crasher:
+    initial call: amqp_gen_connection:init/1
+    pid: <0.211.0>
+    registered_name: []
+    exception exit: {{channel0_died,{writer,send_failed,{error,closed}}},[{gen_server,handle_common_reply,8,[{file,"gen_server.erl"},{line,751}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,249}]}]}
+    ancestors: [<0.209.0>,amqp_sup,<0.207.0>]
+    message_queue_len: 1
+    messages: [socket_closed]
+    links: [<0.209.0>]
+    dictionary: [{gen_server_call_timeout,60000},{process_name,{amqp_gen_connection,<<"client 127.0.0.1:43849 -> 127.0.0.1:5672">>}}]
+    trap_exit: true
+    status: running
+    heap_size: 4185
+    stack_size: 27
+    reductions: 21895
+  neighbours:
+2019-03-25 08:58:07 =SUPERVISOR REPORT====
+     Supervisor: {<0.209.0>,amqp_connection_sup}
+     Context:    child_terminated
+     Reason:     {channel0_died,{writer,send_failed,{error,closed}}}
+     Offender:   [{pid,<0.211.0>},{name,connection},{mfargs,{amqp_gen_connection,start_link,[<0.210.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]}]}},{restart_type,intrinsic},{shutdown,brutal_kill},{child_type,worker}]
+
+2019-03-25 08:58:07 =SUPERVISOR REPORT====
+     Supervisor: {<0.209.0>,amqp_connection_sup}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,<0.211.0>},{name,connection},{mfargs,{amqp_gen_connection,start_link,[<0.210.0>,{amqp_params_network,<<"guest">>,<<"guest">>,<<"/">>,"localhost",5672,0,0,10,60000,none,[fun amqp_auth_mechanisms:plain/3,fun amqp_auth_mechanisms:amqplain/3],[],[]}]}},{restart_type,intrinsic},{shutdown,brutal_kill},{child_type,worker}]
+
