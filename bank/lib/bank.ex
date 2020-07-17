@@ -1,2 +1,0 @@
-defmodule Bank do
-end
