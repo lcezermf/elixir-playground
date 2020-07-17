@@ -11,12 +11,12 @@ defmodule Account do
     GenServer.call(pid, :get_balance)
   end
 
-  def deposit(pid, value) do
-    GenServer.cast(pid, {:deposit, value})
+  def deposit(pid, amount) do
+    GenServer.cast(pid, {:deposit, amount})
   end
 
-  def withdraw(pid, value) do
-    GenServer.cast(pid, {:withdraw, value})
+  def withdraw(pid, amount) do
+    GenServer.cast(pid, {:withdraw, amount})
   end
 
   # Server API
@@ -29,19 +29,23 @@ defmodule Account do
     {:reply, Map.get(state, :balance), state}
   end
 
-  def handle_cast({:deposit, value}, state) do
-    {_value, balance_with_deposit} =
+  def handle_cast({:deposit, amount}, state) do
+    updated_balance = fn balance, amount -> balance + amount end
+
+    {_amount, balance_with_deposit} =
       Map.get_and_update(state, :balance, fn balance ->
-        {balance, balance + value}
+        {balance, updated_balance.(balance, amount)}
       end)
 
     {:noreply, balance_with_deposit}
   end
 
-  def handle_cast({:withdraw, value}, state) do
-    {_value, balance_with_withdraw} =
+  def handle_cast({:withdraw, amount}, state) do
+    updated_balance = fn balance, amount -> balance - amount end
+
+    {_amount, balance_with_withdraw} =
       Map.get_and_update(state, :balance, fn balance ->
-        {balance, balance - value}
+        {balance, updated_balance.(balance, amount)}
       end)
 
     {:noreply, balance_with_withdraw}
