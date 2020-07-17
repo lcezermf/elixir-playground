@@ -32,14 +32,14 @@ defmodule Account do
   def handle_cast({:deposit, amount}, state) do
     update_balance = fn balance, amount -> balance + amount end
 
-    {:noreply, change_balance(state, amount, update_balance)}
+    {:noreply, get_updated_balance(state, amount, update_balance)}
   end
 
   def handle_cast({:withdraw, amount}, state) do
-    {:noreply, change_balance(state, amount, &(&1 - &2))}
+    {:noreply, get_updated_balance(state, amount, &(&1 - &2))}
   end
 
-  defp change_balance(state, amount, fn_update_balance) do
+  defp get_updated_balance(state, amount, fn_update_balance) do
     {_amount, updated_balance} =
       Map.get_and_update(state, :balance, fn balance ->
         {balance, fn_update_balance.(balance, amount)}
