@@ -36,9 +36,7 @@ defmodule Account do
   end
 
   def handle_cast({:withdraw, amount}, state) do
-    update_balance = fn balance, amount -> balance - amount end
-
-    {:noreply, change_balance(state, amount, update_balance)}
+    {:noreply, change_balance(state, amount, &(&1 - &2))}
   end
 
   defp change_balance(state, amount, fn_update_balance) do
