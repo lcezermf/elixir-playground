@@ -12,20 +12,21 @@ defmodule HighSchoolSweetheart do
   end
 
   def initials(full_name) do
-    [first_name | tail] = String.split(full_name)
-    [second_name | _] = tail
+    [first_name, second_name | _] = String.split(full_name)
 
     "#{initial(first_name)} #{initial(second_name)}"
   end
 
   def pair(full_name1, full_name2) do
+    first = initials(full_name1)
+    second = initials(full_name2)
     """
          ******       ******
        **      **   **      **
      **         ** **         **
     **            *            **
     **                         **
-    **     #{initials(full_name1)}  +  #{initials(full_name2)}     **
+    **     #{first}  +  #{second}     **
      **                       **
        **                   **
          **               **
