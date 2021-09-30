@@ -12,11 +12,11 @@ defmodule DateParser do
   end
 
   def day_names() do
-    "[A-Z][a-z]*"
+    "((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day)"
   end
 
   def month_names() do
-    "[A-Z][a-z]*"
+    "((Jan|Febr)uary|March|April|May|Ju(ne|ly)|August|(Octo|(Sept|Nov|Dec)em)ber)"
   end
 
   def capture_day() do
@@ -52,14 +52,14 @@ defmodule DateParser do
   end
 
   def match_numeric_date() do
-    # Please implement the match_numeric_date/0 function
+    ~r/^#{capture_numeric_date()}$/
   end
 
   def match_month_name_date() do
-    # Please implement the match_month_name_day/0 function
+    ~r/^#{capture_month_name_date()}$/
   end
 
   def match_day_month_name_date() do
-    # Please implement the match_day_month_name_date/0 function
+    ~r/^#{capture_day_month_name_date()}$/
   end
 end
