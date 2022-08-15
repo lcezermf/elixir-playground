@@ -19,12 +19,20 @@ defmodule Servy.Handler do
 
   def log(request), do: IO.inspect(request)
 
-  def route(%{method: "GET", path: "/wildthings"} = request) do
+  def route(request) do
+    route(request, request.method, request.path)
+  end
+
+  def route(request, "GET", "/wildthings") do
     %{request | resp_body: "Bears, Lions, Tigers"}
   end
 
-  def route(%{method: "GET", path: "/bears"} = request) do
+  def route(request, "GET", "/bears") do
     %{request | resp_body: "Bear #1, Bear #2, Bear #3"}
+  end
+
+  def route(request, _method, path) do
+    %{request | resp_body: "No #{path} here!"}
   end
 
   def format_response(request) do
@@ -34,6 +42,8 @@ defmodule Servy.Handler do
     Content-Length: #{String.length(request.resp_body)}
 
     #{request.resp_body}
+    ---
+
     """
   end
 end
