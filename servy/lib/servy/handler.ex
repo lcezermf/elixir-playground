@@ -4,6 +4,7 @@ defmodule Servy.Handler do
     |> parse()
     |> rewrite_path()
     |> route()
+    |> emojify()
     |> log()
     |> track()
     |> format_response()
@@ -19,13 +20,17 @@ defmodule Servy.Handler do
     %{method: method, path: path, resp_body: "", status: nil}
   end
 
-  def log(request), do: IO.inspect(request)
-
   def rewrite_path(%{path: "/wildlife"} = request) do
     %{request | path: "/wildthings"}
   end
 
+  def rewrite_path(%{path: "/bears?id=" <> id} = request) do
+    %{request | path: "/bears/" <> id}
+  end
+
   def rewrite_path(request), do: request
+
+  def log(request), do: IO.inspect(request)
 
   def route(%{method: "GET", path: "/wildthings"} = request) do
     %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
@@ -47,6 +52,12 @@ defmodule Servy.Handler do
     %{request | status: 404, resp_body: "No #{path} here!"}
   end
 
+  def emojify(%{status: 200, resp_body: resp_body} = request) do
+    %{request | resp_body: "🎉 #{resp_body} 🎉"}
+  end
+
+  def emojify(request), do: request
+
   def track(%{status: 404, path: path} = request) do
     IO.puts("Warning: #{path} is not here")
 
@@ -59,7 +70,7 @@ defmodule Servy.Handler do
     """
     HTTP/1.1 #{request.status} #{status_reason(request.status)}
     Content-Type: text/html
-    Content-Length: #{String.length(request.resp_body)}
+    Content-Length: #{byte_size(request.resp_body)}
 
     #{request.resp_body}
     ---
@@ -121,6 +132,16 @@ IO.puts(Servy.Handler.handle(request))
 
 request = """
 GET /wildlife HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+"""
+
+IO.puts(Servy.Handler.handle(request))
+
+request = """
+GET /bears?id=7 HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
