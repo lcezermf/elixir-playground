@@ -31,13 +31,21 @@ defmodule Servy.Handler do
     %{request | status: 200, resp_body: "Bear #1, Bear #2, Bear #3"}
   end
 
+  def route(request, "GET", "/bears/" <> id) do
+    %{request | status: 200, resp_body: "Bear ID #{id}"}
+  end
+
+  def route(request, "DELETE", "/bears/" <> id) do
+    %{request | status: 200, resp_body: "Bear ID #{id} deleted"}
+  end
+
   def route(request, _method, path) do
     %{request | status: 404, resp_body: "No #{path} here!"}
   end
 
   def format_response(request) do
     """
-    HTTP/1.1 #{status_reason(request.status)}
+    HTTP/1.1 #{request.status} #{status_reason(request.status)}
     Content-Type: text/html
     Content-Length: #{String.length(request.resp_body)}
 
@@ -70,7 +78,7 @@ Accept: */*
 IO.puts(Servy.Handler.handle(request))
 
 request = """
-GET /bears HTTP/1.1
+GET /bears/1 HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
@@ -81,6 +89,16 @@ IO.puts(Servy.Handler.handle(request))
 
 request = """
 GET /bigfoot HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+
+"""
+
+IO.puts(Servy.Handler.handle(request))
+
+request = """
+DELETE /bears/25 HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
