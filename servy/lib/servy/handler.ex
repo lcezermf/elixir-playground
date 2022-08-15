@@ -14,7 +14,7 @@ defmodule Servy.Handler do
       |> Kernel.hd()
       |> String.split(" ")
 
-    %{method: method, path: path, resp_body: ""}
+    %{method: method, path: path, resp_body: "", status: nil}
   end
 
   def log(request), do: IO.inspect(request)
@@ -24,20 +24,20 @@ defmodule Servy.Handler do
   end
 
   def route(request, "GET", "/wildthings") do
-    %{request | resp_body: "Bears, Lions, Tigers"}
+    %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
   end
 
   def route(request, "GET", "/bears") do
-    %{request | resp_body: "Bear #1, Bear #2, Bear #3"}
+    %{request | status: 200, resp_body: "Bear #1, Bear #2, Bear #3"}
   end
 
   def route(request, _method, path) do
-    %{request | resp_body: "No #{path} here!"}
+    %{request | status: 404, resp_body: "No #{path} here!"}
   end
 
   def format_response(request) do
     """
-    HTTP/1.1 200 OK
+    HTTP/1.1 #{status_reason(request.status)}
     Content-Type: text/html
     Content-Length: #{String.length(request.resp_body)}
 
@@ -45,6 +45,17 @@ defmodule Servy.Handler do
     ---
 
     """
+  end
+
+  defp status_reason(code) do
+    %{
+      200 => "OK",
+      201 => "Created",
+      401 => "Unauthorized",
+      403 => "Forbidden",
+      404 => "Not found",
+      500 => "Internal Server Error"
+    }[code]
   end
 end
 
