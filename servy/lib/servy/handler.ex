@@ -1,4 +1,10 @@
 defmodule Servy.Handler do
+  @moduledoc """
+  Handler request
+  """
+
+  require Logger
+
   def handle(request) do
     request
     |> parse()
@@ -38,7 +44,31 @@ defmodule Servy.Handler do
 
   defp rewrite_path_captures(conv, nil), do: conv
 
-  def log(request), do: IO.inspect(request)
+  def log(%{status: 200} = request) do
+    Logger.info(request)
+
+    request
+  end
+
+  def log(%{status: 403} = request) do
+    Logger.warn(request)
+
+    request
+  end
+
+  def log(%{status: 404} = request) do
+    Logger.error(request)
+
+    request
+  end
+
+  def log(%{status: 500} = request) do
+    Logger.error(request)
+
+    request
+  end
+
+  def log(request), do: request
 
   def route(%{method: "GET", path: "/wildthings"} = request) do
     %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
@@ -53,7 +83,7 @@ defmodule Servy.Handler do
   end
 
   def route(%{method: "DELETE", path: "/bears/" <> _id} = request) do
-    %{ request | status: 403, resp_body: "Deleting a bear is forbidden!"}
+    %{request | status: 403, resp_body: "Deleting a bear is forbidden!"}
   end
 
   def route(%{path: path} = request) do
@@ -81,8 +111,6 @@ defmodule Servy.Handler do
     Content-Length: #{byte_size(request.resp_body)}
 
     #{request.resp_body}
-    ---
-
     """
   end
 
