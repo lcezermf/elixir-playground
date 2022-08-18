@@ -3,72 +3,20 @@ defmodule Servy.Handler do
   Handler request
   """
 
-  require Logger
+  import Servy.Plugins, only: [rewrite_path: 1, log: 1, track: 1]
+  import Servy.Parser, only: [parse: 1]
+  import Servy.FileHandler, only: [handle_file: 2]
 
   def handle(request) do
     request
     |> parse()
     |> rewrite_path()
     |> route()
-    |> emojify()
+    # |> emojify()
     |> log()
     |> track()
     |> format_response()
   end
-
-  def parse(request) do
-    [method, path, _] =
-      request
-      |> String.split("\n")
-      |> Kernel.hd()
-      |> String.split(" ")
-
-    %{method: method, path: path, resp_body: "", status: nil}
-  end
-
-  def rewrite_path(%{path: "/wildlife"} = request) do
-    %{request | path: "/wildthings"}
-  end
-
-  def rewrite_path(%{path: path} = request) do
-    regex = ~r{\/(?<thing>\w+)\?id=(?<id>\d+)}
-    captures = Regex.named_captures(regex, path)
-    rewrite_path_captures(request, captures)
-  end
-
-  def rewrite_path(request), do: request
-
-  defp rewrite_path_captures(request, %{"thing" => thing, "id" => id}) do
-    %{request | path: "/#{thing}/#{id}"}
-  end
-
-  defp rewrite_path_captures(conv, nil), do: conv
-
-  def log(%{status: 200} = request) do
-    Logger.info(request)
-
-    request
-  end
-
-  def log(%{status: 403} = request) do
-    Logger.warn(request)
-
-    request
-  end
-
-  def log(%{status: 404} = request) do
-    Logger.error(request)
-
-    request
-  end
-
-  def log(%{status: 500} = request) do
-    Logger.error(request)
-
-    request
-  end
-
-  def log(request), do: request
 
   def route(%{method: "GET", path: "/wildthings"} = request) do
     %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
@@ -80,6 +28,16 @@ defmodule Servy.Handler do
 
   def route(%{method: "GET", path: "/bears/" <> id} = request) do
     %{request | status: 200, resp_body: "Bear ID #{id}"}
+  end
+
+  def route(%{method: "GET", path: "/" <> page} = request) do
+    File.read("./pages/#{page}.html")
+    |> handle_file(request)
+  end
+
+  def route(%{method: "GET", path: "/bears/new"} = request) do
+    File.read("./pages/form.html")
+    |> handle_file(request)
   end
 
   def route(%{method: "DELETE", path: "/bears/" <> _id} = request) do
@@ -95,14 +53,6 @@ defmodule Servy.Handler do
   end
 
   def emojify(request), do: request
-
-  def track(%{status: 404, path: path} = request) do
-    IO.puts("Warning: #{path} is not here")
-
-    request
-  end
-
-  def track(request), do: request
 
   def format_response(request) do
     """
@@ -124,10 +74,72 @@ defmodule Servy.Handler do
       500 => "Internal Server Error"
     }[code]
   end
+
+
 end
 
+# request = """
+# GET /wildthings HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
+# request = """
+# GET /bears/1 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
+# request = """
+# GET /bigfoot HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
+# request = """
+# DELETE /bears/25 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
+# request = """
+# GET /wildlife HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
+# request = """
+# GET /bears?id=7 HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+
+# """
+
+# IO.puts(Servy.Handler.handle(request))
+
 request = """
-GET /wildthings HTTP/1.1
+GET /about HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
@@ -137,7 +149,7 @@ Accept: */*
 IO.puts(Servy.Handler.handle(request))
 
 request = """
-GET /bears/1 HTTP/1.1
+GET /faq HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
@@ -146,42 +158,12 @@ Accept: */*
 
 IO.puts(Servy.Handler.handle(request))
 
-request = """
-GET /bigfoot HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
+# request = """
+# GET /bears/new HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
 
-"""
+# """
 
-IO.puts(Servy.Handler.handle(request))
-
-request = """
-DELETE /bears/25 HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-IO.puts(Servy.Handler.handle(request))
-
-request = """
-GET /wildlife HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-IO.puts(Servy.Handler.handle(request))
-
-request = """
-GET /bears?id=7 HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-
-"""
-
-IO.puts(Servy.Handler.handle(request))
+# IO.puts(Servy.Handler.handle(request))
