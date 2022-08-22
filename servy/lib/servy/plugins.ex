@@ -1,55 +1,63 @@
 defmodule Servy.Plugins do
   require Logger
 
-  def rewrite_path(%{path: "/wildlife"} = request) do
+  alias Servy.Request
+
+  def rewrite_path(%Request{path: "/wildlife"} = request) do
     %{request | path: "/wildthings"}
   end
 
-  def rewrite_path(%{path: path} = request) do
+  def rewrite_path(%Request{path: path} = request) do
     regex = ~r{\/(?<thing>\w+)\?id=(?<id>\d+)}
     captures = Regex.named_captures(regex, path)
     rewrite_path_captures(request, captures)
   end
 
-  def rewrite_path(request), do: request
+  def rewrite_path(%Request{} = request), do: request
 
-  defp rewrite_path_captures(request, %{"thing" => thing, "id" => id}) do
+  defp rewrite_path_captures(%Request{} = request, %{"thing" => thing, "id" => id}) do
     %{request | path: "/#{thing}/#{id}"}
   end
 
-  defp rewrite_path_captures(conv, nil), do: conv
+  defp rewrite_path_captures(%Request{} = request, nil), do: request
 
-  def log(%{status: 200} = request) do
+  def log(%Request{status: 200} = request) do
     Logger.info(request)
 
     request
   end
 
-  def log(%{status: 403} = request) do
+  def log(%Request{status: 201} = request) do
+    Logger.info(request)
+
+    request
+  end
+
+  def log(%Request{status: 403} = request) do
     Logger.warn(request)
 
     request
   end
 
-  def log(%{status: 404} = request) do
+  def log(%Request{status: 404} = request) do
     Logger.error(request)
 
     request
   end
 
-  def log(%{status: 500} = request) do
+  def log(%Request{status: 500} = request) do
     Logger.error(request)
 
     request
   end
 
-  def log(request), do: request
+  def log(%Request{} = request), do: request
 
-  def track(%{status: 404, path: path} = request) do
+  def track(%Request{status: 404, path: path} = request) do
     IO.puts("Warning: #{path} is not here")
 
     request
   end
 
-  def track(request), do: request
+  def track(%Request{} = request), do: request
 end

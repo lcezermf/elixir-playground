@@ -7,6 +7,8 @@ defmodule Servy.Handler do
   import Servy.Parser, only: [parse: 1]
   import Servy.FileHandler, only: [handle_file: 2]
 
+  alias Servy.Request
+
   def handle(request) do
     request
     |> parse()
@@ -18,64 +20,55 @@ defmodule Servy.Handler do
     |> format_response()
   end
 
-  def route(%{method: "GET", path: "/wildthings"} = request) do
+  def route(%Request{method: "GET", path: "/wildthings"} = request) do
     %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
   end
 
-  def route(%{method: "GET", path: "/bears"} = request) do
+  def route(%Request{method: "GET", path: "/bears"} = request) do
     %{request | status: 200, resp_body: "Bear #1, Bear #2, Bear #3"}
   end
 
-  def route(%{method: "GET", path: "/bears/" <> id} = request) do
+  def route(%Request{method: "GET", path: "/bears/" <> id} = request) do
     %{request | status: 200, resp_body: "Bear ID #{id}"}
   end
 
-  def route(%{method: "GET", path: "/" <> page} = request) do
+  def route(%Request{method: "GET", path: "/" <> page} = request) do
     File.read("./pages/#{page}.html")
     |> handle_file(request)
   end
 
-  def route(%{method: "GET", path: "/bears/new"} = request) do
+  def route(%Request{method: "GET", path: "/bears/new"} = request) do
     File.read("./pages/form.html")
     |> handle_file(request)
   end
 
-  def route(%{method: "DELETE", path: "/bears/" <> _id} = request) do
+  def route(%Request{method: "POST", path: "/bears"} = request) do
+    %{request | status: 201, resp_body: "Created a #{request.params["type"]} bear named as #{request.params["name"]}"}
+  end
+
+  def route(%Request{method: "DELETE", path: "/bears/" <> _id} = request) do
     %{request | status: 403, resp_body: "Deleting a bear is forbidden!"}
   end
 
-  def route(%{path: path} = request) do
+  def route(%Request{path: path} = request) do
     %{request | status: 404, resp_body: "No #{path} here!"}
   end
 
-  def emojify(%{status: 200, resp_body: resp_body} = request) do
+  def emojify(%Request{status: 200, resp_body: resp_body} = request) do
     %{request | resp_body: "🎉 #{resp_body} 🎉"}
   end
 
-  def emojify(request), do: request
+  def emojify(%Request{} = request), do: request
 
-  def format_response(request) do
+  def format_response(%Request{} = request) do
     """
-    HTTP/1.1 #{request.status} #{status_reason(request.status)}
+    HTTP/1.1 #{Request.full_status(request)}
     Content-Type: text/html
     Content-Length: #{byte_size(request.resp_body)}
 
     #{request.resp_body}
     """
   end
-
-  defp status_reason(code) do
-    %{
-      200 => "OK",
-      201 => "Created",
-      401 => "Unauthorized",
-      403 => "Forbidden",
-      404 => "Not found",
-      500 => "Internal Server Error"
-    }[code]
-  end
-
-
 end
 
 # request = """
@@ -138,25 +131,25 @@ end
 
 # IO.puts(Servy.Handler.handle(request))
 
-request = """
-GET /about HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
+# request = """
+# GET /about HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
 
-"""
+# """
 
-IO.puts(Servy.Handler.handle(request))
+# IO.puts(Servy.Handler.handle(request))
 
-request = """
-GET /faq HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
+# request = """
+# GET /faq HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
 
-"""
+# """
 
-IO.puts(Servy.Handler.handle(request))
+# IO.puts(Servy.Handler.handle(request))
 
 # request = """
 # GET /bears/new HTTP/1.1
@@ -167,3 +160,17 @@ IO.puts(Servy.Handler.handle(request))
 # """
 
 # IO.puts(Servy.Handler.handle(request))
+
+
+request = """
+POST /bears HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 21
+
+name=Baloo&type=Brown
+"""
+
+IO.puts(Servy.Handler.handle(request))
