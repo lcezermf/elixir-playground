@@ -8,6 +8,7 @@ defmodule Servy.Handler do
   import Servy.FileHandler, only: [handle_file: 2]
 
   alias Servy.Request
+  alias Servy.BearController
 
   def handle(request) do
     request
@@ -25,11 +26,12 @@ defmodule Servy.Handler do
   end
 
   def route(%Request{method: "GET", path: "/bears"} = request) do
-    %{request | status: 200, resp_body: "Bear #1, Bear #2, Bear #3"}
+    BearController.index(request)
   end
 
   def route(%Request{method: "GET", path: "/bears/" <> id} = request) do
-    %{request | status: 200, resp_body: "Bear ID #{id}"}
+    params = Map.put(request.params, "id", id)
+    BearController.show(request, params)
   end
 
   def route(%Request{method: "GET", path: "/" <> page} = request) do
@@ -43,11 +45,12 @@ defmodule Servy.Handler do
   end
 
   def route(%Request{method: "POST", path: "/bears"} = request) do
-    %{request | status: 201, resp_body: "Created a #{request.params["type"]} bear named as #{request.params["name"]}"}
+    BearController.create(request, request.params)
   end
 
-  def route(%Request{method: "DELETE", path: "/bears/" <> _id} = request) do
-    %{request | status: 403, resp_body: "Deleting a bear is forbidden!"}
+  def route(%Request{method: "DELETE", path: "/bears/" <> id} = request) do
+    params = Map.put(request.params, "id", id)
+    BearController.delete(request, params)
   end
 
   def route(%Request{path: path} = request) do
@@ -71,25 +74,25 @@ defmodule Servy.Handler do
   end
 end
 
-# request = """
-# GET /wildthings HTTP/1.1
-# Host: example.com
-# User-Agent: ExampleBrowser/1.0
-# Accept: */*
+request = """
+GET /bears HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
 
-# """
+"""
 
-# IO.puts(Servy.Handler.handle(request))
+IO.puts(Servy.Handler.handle(request))
 
-# request = """
-# GET /bears/1 HTTP/1.1
-# Host: example.com
-# User-Agent: ExampleBrowser/1.0
-# Accept: */*
+request = """
+GET /bears/3 HTTP/1.1
+Host: example.com
+User-Agent: ExampleBrowser/1.0
+Accept: */*
 
-# """
+"""
 
-# IO.puts(Servy.Handler.handle(request))
+IO.puts(Servy.Handler.handle(request))
 
 # request = """
 # GET /bigfoot HTTP/1.1
@@ -102,7 +105,7 @@ end
 # IO.puts(Servy.Handler.handle(request))
 
 # request = """
-# DELETE /bears/25 HTTP/1.1
+# DELETE /bears/1 HTTP/1.1
 # Host: example.com
 # User-Agent: ExampleBrowser/1.0
 # Accept: */*
@@ -161,16 +164,15 @@ end
 
 # IO.puts(Servy.Handler.handle(request))
 
+# request = """
+# POST /bears HTTP/1.1
+# Host: example.com
+# User-Agent: ExampleBrowser/1.0
+# Accept: */*
+# Content-Type: application/x-www-form-urlencoded
+# Content-Length: 21
 
-request = """
-POST /bears HTTP/1.1
-Host: example.com
-User-Agent: ExampleBrowser/1.0
-Accept: */*
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 21
+# name=Baloo&type=Brown
+# """
 
-name=Baloo&type=Brown
-"""
-
-IO.puts(Servy.Handler.handle(request))
+# IO.puts(Servy.Handler.handle(request))

@@ -1,5 +1,5 @@
 defmodule Servy.Request do
-  defstruct method: "", path: "", resp_body: "", status: nil, params: %{}
+  defstruct method: "", path: "", resp_body: "", status: nil, params: %{}, headers: %{}
 
   def full_status(request) do
     "#{request.status} #{status_reason(request.status)}"
