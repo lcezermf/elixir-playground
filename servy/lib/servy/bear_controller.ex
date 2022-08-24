@@ -1,9 +1,9 @@
 defmodule Servy.BearController do
+  # alias Servy.BearView
+  import Servy.View, only: [render: 3]
+
   alias Servy.Bear
   alias Servy.Wildthings
-  require EEx
-
-  @templates_path Path.expand("../../templates", __DIR__)
 
   def index(request) do
     bears =
@@ -25,14 +25,5 @@ defmodule Servy.BearController do
 
   def delete(request, %{"id" => _id}) do
     %{request | status: 403, resp_body: "Deleting a bear is forbidden!"}
-  end
-
-  defp render(request, template, bindings \\ []) do
-    content =
-      @templates_path
-      |> Path.join(template)
-      |> EEx.eval_file(bindings)
-
-    %{request | status: 200, resp_body: content}
   end
 end
