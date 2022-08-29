@@ -1,6 +1,7 @@
 defmodule Servy.Request do
-  defstruct method: "", path: "", resp_body: "", status: nil, params: %{}, headers: %{}
+  defstruct method: "", path: "", resp_body: "", status: nil, params: %{}, headers: %{}, resp_content_type: "text/html"
 
+  @spec full_status(atom | %{:status => any, optional(any) => any}) :: nonempty_binary
   def full_status(request) do
     "#{request.status} #{status_reason(request.status)}"
   end
@@ -11,7 +12,7 @@ defmodule Servy.Request do
       201 => "Created",
       401 => "Unauthorized",
       403 => "Forbidden",
-      404 => "Not found",
+      404 => "Not Found",
       500 => "Internal Server Error"
     }[code]
   end

@@ -20,7 +20,7 @@ defmodule Servy.BearController do
   end
 
   def create(request, %{"name" => name, "type" => type}) do
-    %{request | status: 201, resp_body: "Created a #{type} bear named as #{name}"}
+    %{request | status: 201, resp_body: "Created a #{type} bear named #{name}!"}
   end
 
   def delete(request, %{"id" => _id}) do
