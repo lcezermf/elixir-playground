@@ -22,9 +22,10 @@ defmodule Servy.Plugins do
   defp rewrite_path_captures(%Request{} = request, nil), do: request
 
   def log(%Request{} = request) do
-    if Mix.env == :dev do
+    if Mix.env() == :dev do
       log(request)
     end
+
     request
   end
 
@@ -61,9 +62,10 @@ defmodule Servy.Plugins do
   def log(%Request{} = request), do: request
 
   def track(%Request{status: 404, path: path} = request) do
-    if Mix.env != :test do
+    if Mix.env() != :test do
       IO.puts("Warning: #{path} is not here")
     end
+
     request
   end
 

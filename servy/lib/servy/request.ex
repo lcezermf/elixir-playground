@@ -1,5 +1,11 @@
 defmodule Servy.Request do
-  defstruct method: "", path: "", resp_body: "", status: nil, params: %{}, headers: %{}, resp_content_type: "text/html"
+  defstruct method: "",
+            path: "",
+            resp_body: "",
+            status: nil,
+            params: %{},
+            headers: %{},
+            resp_headers: %{"Content-Type" => "text/html"}
 
   @spec full_status(atom | %{:status => any, optional(any) => any}) :: nonempty_binary
   def full_status(request) do

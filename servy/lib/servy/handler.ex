@@ -18,6 +18,7 @@ defmodule Servy.Handler do
     # |> emojify()
     |> log()
     |> track()
+    |> put_content_length()
     |> format_response()
   end
 
@@ -68,11 +69,18 @@ defmodule Servy.Handler do
 
   def emojify(%Request{} = request), do: request
 
+  def put_content_length(request) do
+    len = byte_size(request.resp_body)
+    headers = Map.put(request.resp_headers, "Content-Length", len)
+
+    %{request | resp_headers: headers}
+  end
+
   def format_response(%Request{} = request) do
     """
     HTTP/1.1 #{Request.full_status(request)}\r
-    Content-Type: #{request.resp_content_type}\r
-    Content-Length: #{byte_size(request.resp_body)}\r
+    Content-Type: #{request.resp_headers["Content-Type"]}\r
+    Content-Length: #{request.resp_headers["Content-Length"]}\r
     \r
     #{request.resp_body}
     """
