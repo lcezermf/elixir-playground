@@ -1,12 +1,16 @@
 defmodule Servy.API.BearController do
-  def index(conn) do
+  def index(request) do
     bears =
       Servy.Wildthings.list_bears()
       |> Poison.encode!()
 
-    conn = put_resp_content_type(conn, "application/json")
+    request = put_resp_content_type(request, "application/json")
 
-    %{conn | status: 200, resp_body: bears}
+    %{request | status: 200, resp_body: bears}
+  end
+
+  def create(request, %{"name" => name, "type" => type}) do
+    %{request | status: 201, resp_body: "Created a #{type} bear named #{name}!"}
   end
 
   defp put_resp_content_type(conn, type) do

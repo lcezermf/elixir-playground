@@ -22,5 +22,7 @@ defmodule Servy.Parser do
   defp parse_query_string("application/x-www-form-urlencoded", query_string),
     do: query_string |> String.trim() |> URI.decode_query()
 
+  defp parse_query_string("application/json", params), do: Poison.Parser.parse!(params)
+
   defp parse_query_string(_, _), do: %{}
 end

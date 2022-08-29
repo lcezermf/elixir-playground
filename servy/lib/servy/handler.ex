@@ -34,6 +34,10 @@ defmodule Servy.Handler do
     Servy.API.BearController.index(request)
   end
 
+  def route(%Request{method: "POST", path: "/api/bears"} = request) do
+    Servy.API.BearController.create(request, request.params)
+  end
+
   def route(%Request{method: "GET", path: "/bears/" <> id} = request) do
     params = Map.put(request.params, "id", id)
     BearController.show(request, params)
