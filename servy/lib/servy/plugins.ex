@@ -23,43 +23,35 @@ defmodule Servy.Plugins do
 
   def log(%Request{} = request) do
     if Mix.env() == :dev do
-      log(request)
+      log(request, request.status)
     end
 
     request
   end
 
-  def log(%Request{status: 200} = request) do
+  def log(%Request{} = request, status) when status in [200, 201] do
     Logger.info(request)
 
     request
   end
 
-  def log(%Request{status: 201} = request) do
-    Logger.info(request)
-
-    request
-  end
-
-  def log(%Request{status: 403} = request) do
+  def log(%Request{} = request, 403) do
     Logger.warn(request)
 
     request
   end
 
-  def log(%Request{status: 404} = request) do
-    Logger.error(request)
+  def log(%Request{} = request, 404) do
+    Logger.warn(request)
 
     request
   end
 
-  def log(%Request{status: 500} = request) do
+  def log(%Request{} = request, 500) do
     Logger.error(request)
 
     request
   end
-
-  def log(%Request{} = request), do: request
 
   def track(%Request{status: 404, path: path} = request) do
     if Mix.env() != :test do

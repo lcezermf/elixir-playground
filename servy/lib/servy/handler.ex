@@ -63,7 +63,6 @@ defmodule Servy.Handler do
   end
 
   def route(%Request{path: path} = request) do
-    IO.puts("ok")
     %{request | status: 404, resp_body: "No #{path} here!"}
   end
 

@@ -4,7 +4,7 @@ defmodule Servy.Wildthings do
   def list_bears do
     with {:ok, content} <- File.read("./db/bears.json"),
          result <- Poison.decode!(content, as: %{"bears" => [%Bear{}]}) do
-          Map.get(result, "bears")
+      Map.get(result, "bears")
     end
   end
 
