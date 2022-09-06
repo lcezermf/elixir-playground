@@ -1,4 +1,3 @@
-
 defmodule HttpServerTest do
   use ExUnit.Case
 
@@ -8,7 +7,9 @@ defmodule HttpServerTest do
     spawn(HttpServer, :start, [4001])
 
     1..5
-    |> Enum.map(fn(_) -> Task.async(fn -> HTTPoison.get("http://localhost:4001/wildthings") end) end)
+    |> Enum.map(fn _ ->
+      Task.async(fn -> HTTPoison.get("http://localhost:4001/wildthings") end)
+    end)
     |> Enum.map(&Task.await/1)
     |> Enum.map(&assert_response/1)
   end

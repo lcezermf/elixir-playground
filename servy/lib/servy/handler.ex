@@ -45,7 +45,15 @@ defmodule Servy.Handler do
     BearController.show(request, params)
   end
 
-  def route(%Request{method: "GET", path: "/sensors"} = conv) do
+  def route(%Request{method: "POST", path: "/pledges"} = request) do
+    Servy.PledgeController.create(request, request.params)
+  end
+
+  def route(%Request{method: "GET", path: "/pledges"} = request) do
+    Servy.PledgeController.index(request)
+  end
+
+  def route(%Request{method: "GET", path: "/sensors"} = request) do
     task = Task.async(fn -> Tracker.get_location("bigfoot") end)
 
     snapshots =
@@ -55,7 +63,7 @@ defmodule Servy.Handler do
 
     bigfoot = Task.await(task)
 
-    %{conv | status: 200, resp_body: inspect({snapshots, bigfoot})}
+    %{request | status: 200, resp_body: inspect({snapshots, bigfoot})}
   end
 
   def route(%Request{method: "GET", path: "/" <> page} = request) do
