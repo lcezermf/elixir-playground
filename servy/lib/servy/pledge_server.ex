@@ -1,13 +1,19 @@
 defmodule Servy.PledgeServer do
-  def listen_loop(state) do
-    IO.puts("Waiting...")
+  @name :pledge_server
 
+  def start do
+    IO.puts("Starting...")
+    pid = spawn(__MODULE__, :listen_loop, [[]])
+    Process.register(pid, @name)
+    pid
+  end
+
+  def listen_loop(state) do
     receive do
-      {:create_pledge, name, amount} ->
+      {sender, :create_pledge, name, amount} ->
         {:ok, id} = send_pledge_to_service(name, amount)
-        new_state = [{name, amount}, state]
-        IO.puts("#{name} pledge #{amount}")
-        IO.puts("New state is #{inspect(new_state)}")
+        new_state = [{name, amount} | Enum.take(state, 2)]
+        send(sender, {:response, id})
         listen_loop(new_state)
       {sender, :recent_pledges} ->
         send(sender, {:response, state})
@@ -15,9 +21,21 @@ defmodule Servy.PledgeServer do
     end
   end
 
-  # def create_pledge(name, amount) do
-  #   {:ok, id} = send_pledge_to_service(name, amount)
-  # end
+  def create_pledge(name, amount) do
+    send(@name, {self(), :create_pledge, name, amount})
+
+    receive do
+      {:response, status} -> status
+    end
+  end
+
+  def recent_pledges do
+    send(@name, {self(), :recent_pledges})
+
+    receive do
+      {:response, pleges} -> pleges
+    end
+  end
   #
   # def recent_pledges do
   #   []
