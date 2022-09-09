@@ -57,7 +57,7 @@ defmodule Servy.Plugins do
     if Mix.env() != :test do
       IO.puts("Warning: #{path} is not here")
     end
-
+    Servy.FourOhFourCounter.bump_count(path)
     request
   end
 
