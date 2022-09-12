@@ -25,10 +25,10 @@ defmodule Servy.Handler do
   end
 
   def route(%Request{method: "GET", path: "/404s"} = conv) do
-  counts = Servy.FourOhFourCounter.get_counts()
+    counts = Servy.FourOhFourCounter.get_counts()
 
-  %{ conv | status: 200, resp_body: inspect counts }
-end
+    %{conv | status: 200, resp_body: inspect(counts)}
+  end
 
   def route(%Request{method: "GET", path: "/wildthings"} = request) do
     %{request | status: 200, resp_body: "Bears, Lions, Tigers"}
