@@ -4,7 +4,7 @@ defmodule FourOhFourCounterTest do
   alias Servy.FourOhFourCounter, as: Counter
 
   test "reports counts of missing path requests" do
-    Counter.start()
+    {:ok, pid} = Counter.start()
 
     Counter.bump_count("/bigfoot")
     Counter.bump_count("/nessie")
@@ -20,6 +20,8 @@ defmodule FourOhFourCounterTest do
     Counter.reset()
 
     assert Counter.get_counts() == %{}
+
+    send(pid, {:stop, "boom"})
 
     # assert_raise FunctionClauseError, fn ->
     #   send(pid, {:stop, "boom"})
