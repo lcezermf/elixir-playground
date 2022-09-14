@@ -60,16 +60,9 @@ defmodule Servy.Handler do
   end
 
   def route(%Request{method: "GET", path: "/sensors"} = request) do
-    task = Task.async(fn -> Tracker.get_location("bigfoot") end)
+    data = Servy.SensorServer.get_sensor_data()
 
-    snapshots =
-      ["cam-1", "cam-2", "cam-3"]
-      |> Enum.map(&Task.async(fn -> VideoCam.get_snapshot(&1) end))
-      |> Enum.map(&Task.await/1)
-
-    bigfoot = Task.await(task)
-
-    %{request | status: 200, resp_body: inspect({snapshots, bigfoot})}
+    %{request | status: 200, resp_body: inspect(data)}
   end
 
   def route(%Request{method: "GET", path: "/" <> page} = request) do
