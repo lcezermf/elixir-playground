@@ -8,11 +8,12 @@ defmodule Servy.SensorServer do
 
   defmodule State do
     defstruct sensor_data: %{},
-              refresh_interval: :timer.seconds(5)
+              refresh_interval: :timer.minutes(60)
   end
 
-  def start do
-    GenServer.start(__MODULE__, %State{}, name: @name)
+  def start_link(_arg) do
+    IO.puts "Starting PledgeServer"
+    GenServer.start_link(__MODULE__, %State{}, name: @name)
   end
 
   def get_sensor_data do
